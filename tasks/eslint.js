@@ -61,11 +61,14 @@ module.exports = grunt => {
 		
 		if (tooManyErrors) {
 			grunt.log.writeln(chalk.red(`ESLint found too many  errors: ${report.errorCount}(maximum: ${opts.maxErrors})`));
-			return !tooManyErrors;
+			return false;
 		} 						
+		if (report.warningCount>0) {
+			grunt.log.ok(`ESLint found some warning: ${report.warningCount}(maximum: ${opts.maxWarnings})`);			
+		} 		
 		
-		if (report.errorCount>0) {
-			grunt.log.writeln(chalk.yellow(`ESLint found some errors: ${report.errorCount}(maximum: ${opts.maxErrors})`));			
+		if (report.errorCount>0) 
+			grunt.log.ok(`ESLint found some error: ${report.errorCount}(maximum: ${opts.maxErrors})`);			
 		} 		
 		
 		return true;
