@@ -96,7 +96,7 @@ Number of warnings to trigger non-zero exit code.
 ### maxErrors
 
 Type: `number`<br>
-Default: `0` *(means no limit)*
+Default: `0` 
 
 Number of errors to trigger non-zero exit code.
 
