@@ -7,7 +7,8 @@ module.exports = grunt => {
 		const opts = this.options({
 			outputFile: false,
 			quiet: false,
-			maxWarnings: -1
+			maxWarnings: -1,
+			maxErrors: 0
 		});
 
 		if (this.filesSrc.length === 0) {
@@ -51,11 +52,22 @@ module.exports = grunt => {
 		}
 
 		const tooManyWarnings = opts.maxWarnings >= 0 && report.warningCount > opts.maxWarnings;
-
-		if (report.errorCount === 0 && tooManyWarnings) {
+		const tooManyErrors = opts.maxErrors >= 0 && report.errorCount > opts.maxErrors;
+		
+		if (!tooManyErrors && tooManyWarnings) {
 			grunt.warn(`ESLint found too many warnings (maximum: ${opts.maxWarnings})`);
+			return false;
 		}
-
-		return report.errorCount === 0;
+		
+		if (tooManyErrors) {
+			grunt.log.writeln(chalk.red(`ESLint found too many  errors: ${report.errorCount}(maximum: ${opts.maxErrors})`));
+			return !tooManyErrors;
+		} 						
+		
+		if (report.errorCount>0) {
+			grunt.log.writeln(chalk.yellow(`ESLint found some errors: ${report.errorCount}(maximum: ${opts.maxErrors})`));			
+		} 		
+		
+		return true;
 	});
 };

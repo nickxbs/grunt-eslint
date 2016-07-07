@@ -93,6 +93,13 @@ Default: `-1` *(means no limit)*
 
 Number of warnings to trigger non-zero exit code.
 
+### maxErrors
+
+Type: `number`<br>
+Default: `0` *(means no limit)*
+
+Number of errors to trigger non-zero exit code.
+
 
 ## License
 
